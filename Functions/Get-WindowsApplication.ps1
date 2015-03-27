@@ -46,16 +46,10 @@ function Get-WindowsApplication {
 
 		foreach ($location in $systemLocations) {
 			$source = New-Object PSObject
-			$source | Add-Member -MemberType NoteProperty -Name 'RegistryHive' -Value 'Users'
-			$source | Add-Member -MemberType NoteProperty -Name 'SubKey' -Value "$strSID\$location"
+			$source | Add-Member -MemberType NoteProperty -Name 'RegistryHive' -Value 'CurrentUser'
+			$source | Add-Member -MemberType NoteProperty -Name 'SubKey' -Value $location
 			$sources += $source
 		}
-		
-		$location = 'Software\Microsoft\Windows\CurrentVersion\Uninstall'
-		$source = New-Object PSObject
-		$source | Add-Member -MemberType NoteProperty -Name 'RegistryHive' -Value 'CurrentUser'
-		$source | Add-Member -MemberType NoteProperty -Name 'SubKey' -Value $location
-		$sources += $source
 	}
 	
 	$applications = @()
