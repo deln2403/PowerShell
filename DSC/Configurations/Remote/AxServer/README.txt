@@ -1,0 +1,1 @@
+Designed for Microsoft Dynamics Ax 2012 R3 running on Windows Server 2012 R2

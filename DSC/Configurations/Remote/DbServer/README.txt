@@ -1,0 +1,1 @@
+Designed for SQL Server 2012 running on Windows Server 2012 R2

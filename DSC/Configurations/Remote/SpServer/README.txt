@@ -1,0 +1,1 @@
+Designed for SharePoint Foundation 2013 running on Windows Server 2012 R2
