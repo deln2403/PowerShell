@@ -26,7 +26,7 @@ function Get-TargetResource {
 	# Service Instance
 	$serviceName = Get-ServiceName $InstanceName
 	Write-Verbose "Searching for service '$serviceName' ..."
-	$service = Get-Wmi win32_service | ? Name -eq $serviceName
+	$service = Get-WmiObject win32_service | ? Name -eq $serviceName
 	
 	if (!($service)) {
 		Write-Verbose "Unable to locate service $serviceName."
