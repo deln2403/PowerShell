@@ -5,7 +5,6 @@ function Test-TargetResource {
         [string] $InstanceName, # e.g. 'Tentacle'
 		
 		[Parameter(Mandatory)]
-		[ValidateScript({Test-Path $_})]
         [string] $ServicePath, # e.g. 'C:\Octopus'
 		
 		[Parameter(Mandatory=$false)]
@@ -28,7 +27,6 @@ function Test-TargetResource {
         [string] $ApplicationDirectory = "$ServicePath\Applications",
 		
 		[Parameter(Mandatory=$false)]
-		[ValidateScript({Test-Path $_})]
 		[string] $InstallPath,
 		
 		[Parameter(Mandatory=$false)]

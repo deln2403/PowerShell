@@ -1,4 +1,11 @@
 Configuration cSqlServerFeatures {
+	param ( 
+		[Parameter(Mandatory)]
+		[ValidateNotNullOrEmpty()]
+        [ValidateScript({Test-Path $_})]
+		[string] $Source
+    )
+
 	WindowsFeature FileAndStorage-Services  { Name = 'FileAndStorage-Services'; Ensure = 'Present'; Source = $Source }
 	WindowsFeature File-Services  { Name = 'File-Services'; Ensure = 'Present'; Source = $Source }
 	WindowsFeature FS-FileServer  { Name = 'FS-FileServer'; Ensure = 'Present'; Source = $Source }

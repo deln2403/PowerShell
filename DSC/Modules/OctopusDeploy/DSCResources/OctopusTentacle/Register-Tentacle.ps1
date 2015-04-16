@@ -5,7 +5,6 @@ function Register-Tentacle {
         [string] $InstanceName, # e.g. 'Tentacle'
 		
 		[Parameter(Mandatory)]
-		[ValidateScript({Test-Path $_})]
         [string] $ServicePath, # e.g. 'C:\Octopus'
 		
 		[Parameter(Mandatory)][string] $ApiKey,

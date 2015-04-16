@@ -1,5 +1,5 @@
 Configuration cDynamicsAxAosFeatures {
-	    param ( 
+	param ( 
 		[Parameter(Mandatory)]
 		[ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path $_})]

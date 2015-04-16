@@ -6,7 +6,6 @@ function Get-TargetResource {
         [string] $InstanceName, # e.g. 'Tentacle'
 		
 		[Parameter(Mandatory)]
-		[ValidateScript({Test-Path $_})]
         [string] $ServicePath # e.g. 'C:\Octopus'
     )
 	
@@ -27,7 +26,6 @@ function Get-TargetResource {
 	$serviceName = Get-ServiceName $InstanceName
 	Write-Verbose "Searching for service '$serviceName' ..."
 	$service = Get-WmiObject win32_service | ? Name -eq $serviceName
-	
 	if (!($service)) {
 		Write-Verbose "Unable to locate service $serviceName."
 		return @{

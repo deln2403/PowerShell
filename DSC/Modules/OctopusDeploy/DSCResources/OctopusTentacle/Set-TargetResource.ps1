@@ -5,7 +5,6 @@ function Set-TargetResource {
         [string] $InstanceName, # e.g. 'Tentacle'
 		
 		[Parameter(Mandatory)]
-		[ValidateScript({Test-Path $_})]
         [string] $ServicePath, # e.g. 'C:\Octopus'
 		
 		[Parameter(Mandatory=$false)]
@@ -27,8 +26,7 @@ function Set-TargetResource {
 		[Parameter(Mandatory=$false)]
         [string] $ApplicationDirectory = "$ServicePath\Applications",
 		
-		[Parameter(Mandatory)]
-		[ValidateScript({Test-Path $_})]
+		[Parameter(Mandatory=$false)]
 		[string] $InstallPath,
 		
 		[Parameter(Mandatory=$false)]
@@ -92,13 +90,11 @@ function Set-TargetResource {
 	$current, $instance, $settings = Get-Current
 	Write-Verbose "Configuring $InstanceName"
 	
-	# Ensure Absent
-	#--------------------------------------------------------------------------
-	if ($Ensure -eq 'Absent') {
+	# # Ensure Absent
+	# #--------------------------------------------------------------------------
+	if ($Ensure -eq 'Absent' -and $current['Ensure'] -ne 'Absent' ) {
 		Write-Verbose "Ensure instance $InstanceName is 'Absent'. Ignoring all other parameters."
-		# Unregister Tentacle
-		if ( $current['Ensure'] -ne 'Absent' ) { Unregister }
-		return 
+		Unregister
 	}
 	
 	# Ensure Present
@@ -106,13 +102,16 @@ function Set-TargetResource {
 	
 	# Test Application
 	if ( !(Get-WindowsApplication | ? Name -eq $ApplicationName)) {
-		throw "Agent $ApplicationName not installed. Unable to apply desired configuration."
+		Write-Verbose "Agent $ApplicationName not installed. Unable to apply desired configuration."
+		return
 	}
+	
+	Write-Verbose "Agent $ApplicationName installed."
 	
 	# If no instance or settings, register Tentacle
 	if ( !($instance) -or !($settings)) { 
 		Write-Verbose "No tentacle located. Registering."
-		Re-register
+		Register
 		$current, $instance, $settings = Get-Current
 	}
 	
