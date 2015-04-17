@@ -4,8 +4,8 @@ Configuration DbServer {
 	Import-DSCResource -Module xTimeZone
 	Import-DscResource -Module xNetworking
     Import-DscResource -Module cWindowsRoles
-	Import-DscResource -ModuleName OctopusDSC
-	Import-DscResource -ModuleName cNetworkingFirewall
+	Import-DscResource -Module OctopusDeploy
+	Import-DscResource -Module cNetworkingFirewall
     Import-DscResource -Module cDistributedTransactionCoordinator
 
 	Node $AllNodes.NodeName 	{
@@ -50,66 +50,79 @@ Configuration DbServer {
 	#--------------------------------
 	# Windows Features
 	#------------------------------------------------------------------
-		cSqlServerFeatures Features { }
+		cSqlServerFeatures Features { 
+            Source = $Node.FeaturesSourcePath
+        }
 	
 	#--------------------------------
 	# MS DTC
 	#------------------------------------------------------------------
-	cDtc LocalDtc {
-		DtcName = 'local'
-		Status = 'Started'
-	}
-	
-	cDtcNetworkSetting LocalDtcNetworkSetting {
-		DtcName = 'local'
-		AuthenticationLevel = 'NoAuth'
-		InboundTransactionsEnabled = $true
-		OutboundTransactionsEnabled = $true
-		RemoteClientAccessEnabled = $true
-		RemoteAdministrationAccessEnabled = $true
-		XATransactionsEnabled = $true
-		LUTransactionsEnabled = $true
-	}
+		cDtc LocalDtc {
+			DtcName = 'local'
+			Status = 'Started'
+		}
+		
+		cDtcNetworkSetting LocalDtcNetworkSetting {
+			DtcName = 'local'
+			AuthenticationLevel = 'NoAuth'
+			InboundTransactionsEnabled = $true
+			OutboundTransactionsEnabled = $true
+			RemoteClientAccessEnabled = $true
+			RemoteAdministrationAccessEnabled = $true
+			XATransactionsEnabled = $true
+			LUTransactionsEnabled = $true
+		}
 	
 	#--------------------------------
 	# Core Packages
 	#------------------------------------------------------------------
-        Package SevenZip {
+        Package PkgSevenZip {
             Name = $Node.PkgSevenZipName
             Ensure = $Node.PkgSevenZipEnsure 
             Path = $Node.PkgSevenZipPath
             ProductId = $Node.PkgSevenZipProductId
         }
 		
-        Package OctopusDeployTentacle { 
+        Package PkgOctoTentacle { 
             Name = $Node.PkgOctoName
             Ensure = $Node.PkgOctoEnsure
             Path = $Node.PkgOctoPath
             ProductId = $Node.PkgOctoProductId
         }
 
-        cTentacleAgent OctopusDeployTentacleConfiguration { 
+        OctopusTentacle OctoTentacleConfig { 
+            InstanceName = 'Tentacle'
+            ServicePath = $Node.OctoServicePath
             Ensure = 'Present'
-            State = $Node.OctoTentacleState
-            Name = $Node.OctoTentacleName
+            State = 'Running'
+            StartMode = 'Auto'
+            PortNumber = 10933
             ApiKey = $Node.OctoApiKey
             OctopusServerUrl = $Node.OctoServerUrl
+            IpAddress = $Node.IPAddress
             Environments = $Node.OctoEnvironments
             Roles = $Node.OctoRoles
-            ListenPort = $Node.OctoListenPort
-            DefaultApplicationDirectory = $Node.OctoDefaultApplicationDirectory
-            DependsOn = '[Package]OctopusDeployTentacle' 
+            DependsOn = '[Package]PkgOctoTentacle' 
         }
 	
 	#--------------------------------
-	# AX AOS Prerequisites
+    # MSSQL Setup
+    #------------------------------------------------------------------
+        cSqlServerSetup MsSqlServer {
+            Name = 'SqlServer'
+			Ensure = 'Present'
+            SetupLocation = $Node.MsSqlSetupLocation
+            ConfigPath = $Node.MsSqlConfigPath
+        }	
+	
+	#--------------------------------
+	# Dynamics AX AOS Prerequisites
 	#------------------------------------------------------------------
 		Service MSSQLFDLauncher {
 			Name = 'MSSQLFDLauncher$INSTANCE_1'
 			StartupType = 'Automatic'
 			State = 'Running'
-		} 
-	
+		}
 	
 	}
 }

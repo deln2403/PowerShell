@@ -21,6 +21,11 @@ $configData =
 			FirewallPublicEnsure = 'Present'
 		
 		#--------------------------------
+        # Windows Features
+        #------------------------------------------------------------------
+            FeaturesSourcePath = "$Share\Microsoft\WindowsServer2012R2\sources\sxs"
+		
+		#--------------------------------
 		# Core Packages
 		#------------------------------------------------------------------
 			# 7-Zip
@@ -36,14 +41,18 @@ $configData =
             PkgOctoPath = "$Share\OctopusDeploy\Client\Octopus.Tentacle.2.6.4.951-x64.msi"
 			
 			# Octopus Configuration
-            OctoTentacleState = 'Started'
-            OctoTentacleName = 'Tentacle'
-            OctoApiKey = '731B8E494291A291067DB8B2AA6DB0B5A3A7A1F9'
+            OctoServicePath = 'C:\Octopus'
+            OctoApiKey = 'API-ZPPO1F5NSOGXK1MMWEMZBX1YLW'
             OctoServerUrl =  'http://octopus.core.domain.com'
-            OctoListenPort = 10933
             OctoDefaultApplicationDirectory = 'C:\Octopus\Applications'
             OctoEnvironments = @('Dev')
-		
+
+        #--------------------------------
+        # MS SQL Setup
+        #------------------------------------------------------------------
+            MsSqlSetupLocation = "$Share\Microsoft\SqlServer2012EntSP2\Installer"
+            MsSqlConfigPath = "$Share\Microsoft\SqlServer2012EntSP2\Configurations\ConfigurationFile.ini"
+
 		}
 		@{     
 			NodeName = 'DbServer01'

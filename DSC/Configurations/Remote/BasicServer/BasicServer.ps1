@@ -14,7 +14,7 @@ $configData =
 			Gateway = '192.168.0.1'
 			DnsAddress = @('192.168.0.100','192.168.0.1')
 
-			# Pacakage 7-Zip
+			# Package 7-Zip
             SevenZipName = '7-Zip 9.38 (x64 edition)'
             SevenZipProductId = '23170F69-40C1-2702-0938-000001000000'
             SevenZipEnsure = 'Present'
