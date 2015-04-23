@@ -4,6 +4,7 @@ function Test-TargetResource {
 		[ValidateNotNullOrEmpty()]
 		[string] $DtcName,
 		
+        [bool] $NetworkDtcAccessEnabled,
         [bool] $RemoteClientAccessEnabled,
 		[bool] $RemoteAdministrationAccessEnabled,
 		[bool] $InboundTransactionsEnabled,
@@ -15,6 +16,11 @@ function Test-TargetResource {
  
 	$pass = $true
     $current = (Get-TargetResource -DtcName $DtcName)
+	
+	# NetworkDtcAccessEnabled
+	if ($current['NetworkDtcAccessEnabled'] -ne $NetworkDtcAccessEnabled ) { $pass = $false }
+	Write-Verbose "NetworkDtcAccessEnabled::  Desired: $NetworkDtcAccessEnabled  |  Current: $($current['NetworkDtcAccessEnabled'])  |  Pass: $pass"
+	
 	
 	# RemoteClientAccessEnabled
 	if ( $current['RemoteClientAccessEnabled'] -ne $RemoteClientAccessEnabled ) { $pass = $false }

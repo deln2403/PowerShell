@@ -4,6 +4,7 @@ function Set-TargetResource {
 		[ValidateNotNullOrEmpty()]
 		[string] $DtcName,
 		
+		[bool] $NetworkDtcAccessEnabled,
         [ValidateSet('Mutual', 'Incoming', 'NoAuth')] [string] $AuthenticationLevel,
 		[bool] $InboundTransactionsEnabled,
 		[bool] $OutboundTransactionsEnabled,
@@ -16,16 +17,23 @@ function Set-TargetResource {
     $current = (Get-TargetResource -DtcName $DtcName)
 	Write-Verbose "Configuring DtcNetworkSetting ..."
 	
+	# NetworkDtcAccessEnabled
+	if ( $current['NetworkDtcAccessEnabled'] -ne $NetworkDtcAccessEnabled ) { $pass = $false }
+	Write-Verbose "Setting NetworkDtcAccessEnabled $NetworkDtcAccessEnabled..."
+	Set-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\MSDTC\Security -Name NetworkDtcAccess -Value $NetworkDtcAccessEnabled
+	
 	# RemoteClientAccessEnabled
 	if ( $current['RemoteClientAccessEnabled'] -ne $RemoteClientAccessEnabled ) { $pass = $false }
 	Write-Verbose "Setting RemoteClientAccessEnabled $RemoteClientAccessEnabled..."
 	Set-DtcNetworkSetting -DtcName $DtcName -RemoteClientAccessEnabled $RemoteClientAccessEnabled -Confirm:$false
 	
 	# RemoteAdministrationAccessEnabled
+	if ( $current['RemoteAdministrationAccessEnabled'] -ne $RemoteAdministrationAccessEnabled ) { $pass = $false }
 	Write-Verbose "Setting RemoteAdministrationAccessEnabled $RemoteAdministrationAccessEnabled..."
 	Set-DtcNetworkSetting -DtcName $DtcName -RemoteAdministrationAccessEnabled $RemoteAdministrationAccessEnabled -Confirm:$false
 	
 	# InboundTransactionsEnabled
+	if ( $current['InboundTransactionsEnabled'] -ne $InboundTransactionsEnabled ) { $pass = $false }
 	Write-Verbose "Setting InboundTransactionsEnabled $InboundTransactionsEnabled..."
 	Set-DtcNetworkSetting -DtcName $DtcName -InboundTransactionsEnabled $InboundTransactionsEnabled -Confirm:$false
 	

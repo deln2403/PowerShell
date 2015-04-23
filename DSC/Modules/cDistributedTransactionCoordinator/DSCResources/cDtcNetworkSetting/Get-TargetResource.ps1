@@ -11,6 +11,7 @@ function Get-TargetResource {
 	
 	return @{
 		AuthenticationLevel = (Get-DtcNetworkSetting).AuthenticationLevel
+		NetworkDtcAccessEnabled = [bool] $dtc.NetworkDtcAccess
 		RemoteClientAccessEnabled = [bool] $dtc.NetworkDtcAccessClients
 		RemoteAdministrationAccessEnabled = [bool] $dtc.NetworkDtcAccessAdmin
 		InboundTransactionsEnabled = [bool] $dtc.NetworkDtcAccessInbound

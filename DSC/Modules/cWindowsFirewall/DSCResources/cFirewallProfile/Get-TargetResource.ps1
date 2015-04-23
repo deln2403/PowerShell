@@ -8,7 +8,7 @@ function Get-TargetResource {
     )
 	
     Write-Verbose "Getting firewall state for profile $Name"
-    if ( (Get-NetFirewallProfile -Name Domain).Enabled ) {
+    if ( (Get-NetFirewallProfile -Name $Name).Enabled -eq 'True' ) {
 		Write-Verbose "Firewall profile $Name is Enabled/Present"
 		return @{
 			Name = $Name
