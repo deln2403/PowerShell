@@ -1,0 +1,21 @@
+[ClassVersion("1.0.0"), FriendlyName("TentacleInstance")] 
+class TentacleInstance : OMI_BaseResource
+{
+  [Key] string InstanceName;
+  [Required] string ServicePath;
+  
+  [Write] string ApplicationName;
+  [Write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
+  [Write,ValueMap{"Running","Stopped"},Values{"Running", "Stopped"}] string State;
+  [Write,ValueMap{"Manual","Auto","Disabled"},Values{"Manual", "Auto","Disabled"}] string StartMode;
+  [Write] UInt32 PortNumber;
+  [Write] string ApplicationDirectory;
+  
+  [Write] string InstallPath;
+  [Write] string IpAddress;
+  [Write] string ApiKey;
+  [Write] string OctopusServerUrl;
+  [Write] string Environments[];
+  [Write] string Roles[];
+
+};

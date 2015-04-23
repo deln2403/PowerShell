@@ -10,7 +10,6 @@ function Get-TargetResource {
 	
 	return @{
 		DtcName = $dtc.DtcName
-		VirtualServerName = $dtc.VirtualServerName
 		Status = $dtc.Status
 	}
 }
