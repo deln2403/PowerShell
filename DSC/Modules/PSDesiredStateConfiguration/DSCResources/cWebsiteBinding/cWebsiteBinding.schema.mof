@@ -1,0 +1,9 @@
+[ClassVersion("1.0.0"), FriendlyName("cWebsiteBinding")] 
+class cWebsiteBinding : OMI_BaseResource
+{
+  [Key] string Name;
+  [Required] string Website;
+  [Required] string Protocol;
+  [Required] string Port;
+  [Write, ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
+};

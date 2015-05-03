@@ -85,7 +85,10 @@ function Set-TargetResource {
 	# Ensure Present
 	#--------------------------------------------------------------------------
 	# If no instance or settings, register Tentacle
-	if ( !($current['State']) -or !($current['PortNumber'])) { 
+	if ( $current['State'] ) {
+		Write-Verbose "Tentacle located."
+	}
+	else {
 		Write-Verbose "No tentacle located. Registering."
 		Register
 		$current = Get-TargetResource -InstanceName $InstanceName -ServicePath $ServicePath
@@ -94,8 +97,8 @@ function Set-TargetResource {
 	# If settings incorrect, re-register Tentacle
 	if ( $current['ApplicationDirectory'] -ne $ApplicationDirectory -or 
 									$current['PortNumber'] -ne $PortNumber) {
-		Write-Verbose "Incorrect ApplicationDirectory| Desired: $ApplicationDirectory, Current: $($current['ApplicationDirectory'])"
-		Write-Verbose "Incorrect Port| Desired: $PortNumber, Current: $($current['PortNumber'])"
+		Write-Verbose "ApplicationDirectory | Desired: $ApplicationDirectory, Current: $($current['ApplicationDirectory'])"
+		Write-Verbose "Port| Desired: $PortNumber, Current: $($current['PortNumber'])"
 		Unregister
 		Register
 		$current = Get-TargetResource -InstanceName $InstanceName -ServicePath $ServicePath

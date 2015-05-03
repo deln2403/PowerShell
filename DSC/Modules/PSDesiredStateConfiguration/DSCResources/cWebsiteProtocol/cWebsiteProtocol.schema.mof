@@ -1,0 +1,7 @@
+[ClassVersion("1.0.0"), FriendlyName("cWebsiteProtocol")] 
+class cWebsiteProtocol : OMI_BaseResource
+{
+  [Key] string Name;
+  [Required] string Website;
+  [Write, ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
+};

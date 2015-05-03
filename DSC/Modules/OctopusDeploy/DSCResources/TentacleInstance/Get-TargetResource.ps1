@@ -37,9 +37,7 @@ function Get-TargetResource {
 	# Test Tentacle config file
 	$configPath = "$ServicePath\$InstanceName\Tentacle.config"
 	Write-Verbose $configPath
-	if (!(Test-Path $configPath)) { 
-		throw "Unable to locate $configPath"
-	}
+	if (!(Test-Path $configPath)) { throw "Unable to locate $configPath" }
 	
 	# Get Tentacle parameters
 	$configContent = ([xml] (Get-Content $configPath)).'octopus-settings'.set
