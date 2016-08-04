@@ -21,4 +21,3 @@ function Get-DotNetFramework {
 			% { (Split-Path $_ -leaf).Replace('v','') } | `
 				Select -Last 1)
 }
-
