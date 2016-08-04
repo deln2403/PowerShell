@@ -41,7 +41,7 @@ function Get-WinLog() {
     [parameter(
       Mandatory=$false,
       ValueFromPipeline=$false,
-      Position=2)][String]$Source,
+      Position=2)][String]$Source = $WinLogSource,
       
     [switch]$All
   )

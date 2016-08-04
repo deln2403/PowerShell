@@ -1,5 +1,5 @@
 ###############################################################################
-##  $FileName: Get-WinLogVariables.ps1
+##  $FileName: Get-WinLogContext.ps1
 ##  $Version: 1.0
 ##  $Description:
 ###############################################################################
@@ -15,8 +15,8 @@
   Prints to screen the names and values of the 'Win' variables. The
   functions prints  all variables beginning with 'Win'.
 .EXAMPLE
-  Get-WinLogVariables
+  Get-WinLogContext
 #>
-function Get-WinLogVariables {
+function Get-WinLogContext {
   get-variable | ? {$_.name -like "WinLog*"}
 }

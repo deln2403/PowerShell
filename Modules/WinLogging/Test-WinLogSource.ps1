@@ -18,11 +18,11 @@ function Test-WinLogSource {
     [parameter(
       Mandatory=$false,
       ValueFromPipeline=$true,
-      Position=1)][String]$Source = $WinSource
+      Position=1)][String]$Source = $WinLogSource
   )
 	
 	if (!($LogName) -or !($Source)) {
-		throw "Event log Name and Source required. Perhaps set WinLogName and WinSource variables." }
+		throw "Event log Name and Source required. Perhaps set WinLogName and WinLogSource variables." }
  
   if (!(Test-WinLog -LogName $LogName)) { return $false }
 
