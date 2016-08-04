@@ -1,7 +1,7 @@
 function Test-TargetResource {
      param (
 		[Parameter(Mandatory)]
-		[ValidateNotNullOrEmpty()]
+        [ValidateSet('IEHardenAdmin', 'IEHardenUser')]
 		[string] $Name,
 		
 		[Parameter(Mandatory)]
@@ -13,7 +13,7 @@ function Test-TargetResource {
     $current = (Get-TargetResource -Name $Name)
 	
 	if ($current['Ensure'] -ne $Ensure ) { $pass = $false }
-	Write-Verbose "IEEnhancedSecurity::  Desired: $Ensure  |  Current: $($current['Ensure'])  |  Pass: $pass"
+	Write-Verbose "InternetExplorerEsc::  Desired: $Ensure  |  Current: $($current['Ensure'])  |  Pass: $pass"
 	
 	return $pass
 }

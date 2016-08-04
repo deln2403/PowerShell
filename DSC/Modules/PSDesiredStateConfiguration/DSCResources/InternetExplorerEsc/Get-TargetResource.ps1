@@ -2,15 +2,15 @@ function Get-TargetResource {
 	[OutputType([Hashtable])]
     param (
 		[Parameter(Mandatory)]
-		[ValidateNotNullOrEmpty()]
+        [ValidateSet('IEHardenAdmin', 'IEHardenUser')]
 		[string] $Name
     )
 	
-	$key = $registryKeys.$states.Get_Item($Name)
+	$key = $registryKeys.Get_Item($Name)
 	$isInstalled = (Get-ItemProperty $key).IsInstalled
 	
-	if ($isInstalled) { $ensure = 'Disabled' }
-	else { $ensure = 'Enabled' }
+	if ($IsInstalled) { $ensure = 'Enabled' }
+	else { $ensure = 'Disabled' }
 	
 	return @{
 		Name = $Name
